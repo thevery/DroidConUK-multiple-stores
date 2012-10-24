@@ -39,6 +39,7 @@
     <orderEntry type="jdk" jdkName="Android 4.0.3 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Library" />
+    <orderEntry type="library" name="in-app-purchasing-1.0.3" level="project" />
   </component>
 </module>
 
