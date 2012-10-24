@@ -11,24 +11,29 @@
 
         <Button android:layout_width="160dp"
                 android:layout_height="64dp"
+                style="@style/Button.Blue"
                 android:text="Lesson 1"/>
 
         <Button android:layout_width="160dp"
                 android:layout_height="64dp"
+                style="@style/Button.Blue"
                 android:text="Lesson 2"/>
 
         <Button android:layout_width="160dp"
                 android:layout_height="64dp"
+                style="@style/Button.Blue"
                 android:text="Lesson 3"/>
 
         <Button android:layout_width="160dp"
                 android:layout_height="64dp"
+                style="@style/Button.Blue"
                 android:text="Lesson 4"/>
 
         <Button android:layout_width="wrap_content"
                 android:gravity="center"
                 android:drawableStart="@drawable/ic_lock_lock"
                 android:layout_height="64dp"
+                style="@style/Button.Blue"
                 android:text="L5"/>
 
     </LinearLayout>
