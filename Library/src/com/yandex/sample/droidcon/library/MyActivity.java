@@ -1,4 +1,4 @@
-package com.yandex.sample.droidcon.amazon;
+package com.yandex.sample.droidcon.library;
 
 import android.app.Activity;
 import android.app.Application;
