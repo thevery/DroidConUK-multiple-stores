@@ -2,48 +2,77 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
+              android:layout_height="fill_parent"
+              android:background="@color/bg_gray">
 
-    <LinearLayout android:layout_weight="1"
-                  android:layout_height="0dp"
-                  android:layout_width="match_parent"
-                  android:orientation="vertical">
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/delimeter_blue"/>
 
-        <Button android:layout_width="160dp"
-                android:layout_height="64dp"
-                style="@style/Button.Blue"
-                android:text="Lesson 1"/>
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
-        <Button android:layout_width="160dp"
-                android:layout_height="64dp"
-                style="@style/Button.Blue"
-                android:text="Lesson 2"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/level_label"
+            android:gravity="center"
+            android:layout_marginBottom="40dp"
+            android:textSize="23dp"
+            android:textColor="@color/text_blue"/>
 
-        <Button android:layout_width="160dp"
-                android:layout_height="64dp"
-                style="@style/Button.Blue"
-                android:text="Lesson 3"/>
+        <Button
+            android:layout_width="270dp"
+            android:layout_height="64dp"
+            style="@style/Button.Blue"
+            android:text="@string/level_0"/>
 
-        <Button android:layout_width="160dp"
-                android:layout_height="64dp"
-                style="@style/Button.Blue"
-                android:text="Lesson 4"/>
+        <Button
+            android:layout_width="270dp"
+            android:layout_height="64dp"
+            style="@style/Button.Blue"
+            android:text="@string/level_1"/>
 
-        <Button android:layout_width="wrap_content"
-                android:gravity="center"
-                android:drawableStart="@drawable/ic_lock_lock"
-                android:layout_height="64dp"
-                style="@style/Button.Blue"
-                android:text="L5"/>
+        <Button
+            android:layout_width="270dp"
+            android:layout_height="64dp"
+            style="@style/Button.Blue"
+            android:text="@string/level_2"/>
+
+        <Button
+            android:layout_width="270dp"
+            android:layout_height="64dp"
+            android:drawableStart="@drawable/ic_lock_lock"
+            android:drawableEnd="@drawable/ic_lock_lock_right"
+            android:textColor="#8c8c8c"
+            android:text="@string/level_3"/>
+
+        <Button
+            android:layout_width="270dp"
+            android:layout_height="64dp"
+            android:drawableStart="@drawable/ic_lock_lock"
+            android:drawableEnd="@drawable/ic_lock_lock_right"
+            android:textColor="#8c8c8c"
+            android:text="@string/level_4"/>
 
     </LinearLayout>
 
-
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center"
-              android:text="xx days trial left"
-              style="@android:style/TextAppearance.Large"/>
+    <TextView
+        android:id="@+id/subscription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/bg_black"
+        android:text="@string/days_left"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:padding="12dp"
+        style="@android:style/TextAppearance.Large"/>
 
 </LinearLayout>
 
