@@ -10,7 +10,7 @@
     <application
         android:name="com.yandex.sample.droidcon.play.PlayApplication"
         android:label="@string/app_name"
-        android:icon="@drawable/ic_launcher">
+        android:icon="@drawable/ic_launcher_gp">
 
         <activity android:name=".Dungeons"
                   android:label="@string/app_name">
