@@ -48,8 +48,9 @@
             android:id="@+id/level3"
             android:layout_width="270dp"
             android:layout_height="64dp"
-            style="@style/Button.Blue"
-            android:clickable="true"
+            android:drawableStart="@drawable/ic_lock_lock"
+            android:drawableEnd="@drawable/ic_lock_lock_right"
+            android:textColor="#8c8c8c"
             android:onClick="onLevel4Click"
             android:text="@string/level_3"/>
 
