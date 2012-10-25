@@ -25,9 +25,11 @@ public class MyActivity extends Activity {
         if (state) {
             level4.setTextColor(R.color.text_blue_button_unlocked);
             level4.setBackgroundResource(R.drawable.btn_blue);
+            level4.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         } else {
             level4.setTextColor(R.color.text_blue_button_locked);
             level4.setBackgroundResource(android.R.drawable.btn_default);
+            level4.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_lock, 0, R.drawable.ic_lock_lock_right, 0);
         }
 
 
