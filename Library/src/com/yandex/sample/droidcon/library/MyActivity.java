@@ -41,4 +41,10 @@ public class MyActivity extends Activity {
         //todo
     }
 
+    public void onAdvancedClick(View v){
+        final LibraryApplication application = (LibraryApplication) getApplication();
+        String sku = "com.amazon.buttonclicker.blue_button";
+        application.purchase(sku);
+    }
+
 }

@@ -2,7 +2,7 @@ package com.yandex.sample.droidcon.library;
 
 import android.app.Application;
 
-public class LibraryApplication extends Application {
+public abstract class LibraryApplication extends Application {
 
     public static final int EXPIRED = -1;
     public static final int UNLIMITED = -2;
@@ -18,4 +18,10 @@ public class LibraryApplication extends Application {
     public boolean isSubscribed() {
         return getSubscriptionDaysLeft() != EXPIRED;
     }
+
+    public abstract boolean getEntitlementState(String sku);
+
+    public abstract int getConsumableCount(String sku);
+
+    public abstract void purchase(String sku);
 }

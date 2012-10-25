@@ -58,6 +58,7 @@
             android:drawableStart="@drawable/ic_lock_lock"
             android:drawableEnd="@drawable/ic_lock_lock_right"
             android:textColor="#8c8c8c"
+            android:onClick="onAdvancedClick"
             android:text="@string/level_4"/>
 
     </LinearLayout>
@@ -72,6 +73,7 @@
         android:textColor="@color/white"
         android:textSize="16dp"
         android:padding="12dp"
+        android:onClick="onSubscriptionClick"
         style="@android:style/TextAppearance.Large"/>
 
 </LinearLayout>
