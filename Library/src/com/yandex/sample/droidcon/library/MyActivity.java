@@ -10,10 +10,21 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MyActivity extends Activity {
 
-    public static final String IN_APP_SKU = "com.amazon.buttonclicker.blue_button";
-    public static final String SUBSCRIPTION_SKU = "com.amazon.buttonclicker.subscription.1mo";
+    public static final String IN_APP_SKU_UPPER = "com.yandex.sample.droidcon.library.upper";
+    public static final String IN_APP_SKU_ADVANCED = "com.yandex.sample.droidcon.library.advanced";
+    public static final String SUBSCRIPTION_SKU = "com.yandex.sample.droidcon.library.1mo";
+
+    public static final Map<Integer, String> VIEW2SKU = new HashMap<Integer, String>() {{
+        put(R.id.level3, IN_APP_SKU_UPPER);
+        put(R.id.level4, IN_APP_SKU_ADVANCED);
+        put(R.id.subscription, SUBSCRIPTION_SKU);
+    }};
+
     private BroadcastReceiver receiver;
 
     @Override
@@ -47,18 +58,15 @@ public class MyActivity extends Activity {
 
     private void updateState() {
         final LibraryApplication application = (LibraryApplication) getApplication();
-        TextView level4 = (TextView) findViewById(R.id.level3);
-        final boolean state = application.getEntitlementState(IN_APP_SKU);
-        if (state) {
-            level4.setTextColor(getResources().getColor(R.color.text_blue_button_unlocked));
-            level4.setBackgroundResource(R.drawable.btn_blue);
-            level4.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-        } else {
-//            level4.setTextColor(getResources().getColor(R.color.text_blue_button_locked));
-//            level4.setBackgroundResource(android.R.drawable.btn_default);
-//            level4.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_lock_lock, 0, R.drawable.ic_lock_lock_right, 0);
+        for (Integer viewId : VIEW2SKU.keySet()) {
+            TextView level4 = (TextView) findViewById(viewId);
+            final boolean purchased = application.getEntitlementState(VIEW2SKU.get(viewId));
+            if (purchased) {
+                level4.setTextColor(getResources().getColor(R.color.text_blue_button_unlocked));
+                level4.setBackgroundResource(R.drawable.btn_blue);
+                level4.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            }
         }
-
 
         TextView subscription = (TextView) findViewById(R.id.subscription);
 
@@ -83,12 +91,8 @@ public class MyActivity extends Activity {
         return true;
     }
 
-    public void onSubscriptionClick(View v) {
-        purchaseSku(SUBSCRIPTION_SKU);
-    }
-
-    public void onLevel4Click(View v) {
-        purchaseSku(IN_APP_SKU);
+    public void onLevelClick(View v) {
+        purchaseSku(VIEW2SKU.get(v.getId()));
     }
 
     private void purchaseSku(String sku) {
