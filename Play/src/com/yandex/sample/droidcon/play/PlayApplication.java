@@ -25,5 +25,6 @@ public class PlayApplication extends LibraryApplication {
 
     @Override
     public void purchase(String sku) {
+        //...
     }
 }

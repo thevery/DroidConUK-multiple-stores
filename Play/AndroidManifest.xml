@@ -5,10 +5,21 @@
           android:versionName="1.0">
 
     <uses-sdk android:minSdkVersion="14"/>
+    <uses-permission android:name="com.android.vending.BILLING" />
+
     <application
         android:name="com.yandex.sample.droidcon.play.PlayApplication"
         android:label="@string/app_name"
         android:icon="@drawable/ic_launcher">
+
+        <activity android:name=".Dungeons"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
         <activity
             android:name="com.yandex.sample.droidcon.library.MyActivity"
@@ -16,10 +27,21 @@
             android:label="@string/app_name">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
             </intent-filter>
 
         </activity>
+
+        <service android:name=".BillingService" />
+
+        <receiver android:name=".BillingReceiver">
+            <intent-filter>
+                <action android:name="com.android.vending.billing.IN_APP_NOTIFY" />
+                <action android:name="com.android.vending.billing.RESPONSE_CODE" />
+                <action android:name="com.android.vending.billing.PURCHASE_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>
