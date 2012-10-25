@@ -1,6 +1,10 @@
 package com.yandex.sample.droidcon.library;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -10,12 +14,35 @@ public class MyActivity extends Activity {
 
     public static final String IN_APP_SKU = "com.amazon.buttonclicker.blue_button";
     public static final String SUBSCRIPTION_SKU = "com.amazon.buttonclicker.subscription.1mo";
+    private BroadcastReceiver receiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         updateState();
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                System.out.println("MyActivity.onReceive");
+                updateState();
+            }
+        };
+    }
+
+    @Override
+    protected void onResume() {
+        System.out.println("MyActivity.onResume");
+        registerReceiver(receiver, new IntentFilter(LibraryApplication.makeStateChangedBroadcast(this)));
+        super.onResume();
+        updateState();
+    }
+
+    @Override
+    protected void onPause() {
+        System.out.println("MyActivity.onPause");
+        unregisterReceiver(receiver);
+        super.onPause();
     }
 
     private void updateState() {

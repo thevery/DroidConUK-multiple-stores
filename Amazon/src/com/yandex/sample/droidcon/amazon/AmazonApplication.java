@@ -2,11 +2,13 @@ package com.yandex.sample.droidcon.amazon;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import com.amazon.inapp.purchasing.PurchasingManager;
 import com.yandex.sample.droidcon.library.LibraryApplication;
 
 public class AmazonApplication extends LibraryApplication {
+    public static final String CURRENT_USER = "CURRENT_USER";
     private String currentUser;
 
     @Override
@@ -24,8 +26,9 @@ public class AmazonApplication extends LibraryApplication {
     @Override
     public boolean getEntitlementState(String sku) {
         final SharedPreferences preferences = getSharedPreferencesForCurrentUser();
-        preferences.getBoolean(sku, false);
-        return false;
+        final boolean state = preferences.getBoolean(sku, false);
+        System.out.println("state = " + state);
+        return state;
     }
 
     @Override
@@ -41,10 +44,14 @@ public class AmazonApplication extends LibraryApplication {
 
     public void setCurrentUser(String currentUser) {
         Log.v(ButtonClickerObserver.TAG, "setCurrentUser: currentUser=" + currentUser);
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString(CURRENT_USER, currentUser).commit();
         this.currentUser = currentUser;
     }
 
     public String getCurrentUser() {
+        if (currentUser==null) {
+            currentUser = PreferenceManager.getDefaultSharedPreferences(this).getString(CURRENT_USER, null);
+        }
         Log.v(ButtonClickerObserver.TAG, "getCurrentUser: returns " + currentUser);
         return currentUser;
     }
@@ -55,7 +62,7 @@ public class AmazonApplication extends LibraryApplication {
      * @return SharedPreferences file for a user.
      */
     private SharedPreferences getSharedPreferencesForCurrentUser() {
-        final SharedPreferences settings = getSharedPreferences(currentUser, Context.MODE_PRIVATE);
+        final SharedPreferences settings = getSharedPreferences(getCurrentUser(), Context.MODE_PRIVATE);
         return settings;
     }
 

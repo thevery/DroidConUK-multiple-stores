@@ -15,11 +15,13 @@
 package com.yandex.sample.droidcon.amazon;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.amazon.inapp.purchasing.*;
 import com.amazon.inapp.purchasing.GetUserIdResponse.GetUserIdRequestStatus;
+import com.yandex.sample.droidcon.library.LibraryApplication;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -231,7 +233,6 @@ public class ButtonClickerObserver extends BasePurchasingObserver {
                 PurchasingManager.initiatePurchaseUpdatesRequest(Offset.fromString(context.getSharedPreferences(getApplication().getCurrentUser(), Context.MODE_PRIVATE)
                         .getString(OFFSET, Offset.BEGINNING.toString())));
             }
-            final SharedPreferences settings = getSharedPreferencesForCurrentUser();
             final SharedPreferences.Editor editor = getSharedPreferencesEditor();
             switch (purchaseResponse.getPurchaseRequestStatus()) {
                 case SUCCESSFUL:
@@ -267,6 +268,7 @@ public class ButtonClickerObserver extends BasePurchasingObserver {
                  * Fulfillment is done unconditionally, we determine which item should be fulfilled by matching the
                  * request id returned from the initial request with the request id stored in the response.
                  */
+                    //todo
                     final String requestId = purchaseResponse.getRequestId();
 //                    editor.putBoolean(baseActivity.requestIds.get(requestId), true);
                     editor.commit();
@@ -294,7 +296,8 @@ public class ButtonClickerObserver extends BasePurchasingObserver {
         protected void onPostExecute(final Boolean success) {
             super.onPostExecute(success);
             if (success) {
-//                baseActivity.update();
+                System.out.println("ButtonClickerObserver$PurchaseAsyncTask.onPostExecute");
+                context.sendBroadcast(new Intent(LibraryApplication.makeStateChangedBroadcast(context)));
             }
         }
     }
@@ -417,8 +420,8 @@ public class ButtonClickerObserver extends BasePurchasingObserver {
         protected void onPostExecute(final Boolean success) {
             super.onPostExecute(success);
             if (success) {
-                //todo: send broadcast
-//                baseActivity.update();
+                System.out.println("ButtonClickerObserver$PurchaseUpdatesAsyncTask.onPostExecute");
+                context.sendBroadcast(new Intent(LibraryApplication.makeStateChangedBroadcast(context)));
             }
         }
     }
