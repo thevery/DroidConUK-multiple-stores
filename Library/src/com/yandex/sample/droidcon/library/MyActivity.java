@@ -1,14 +1,15 @@
 package com.yandex.sample.droidcon.library;
 
 import android.app.Activity;
-import android.app.Application;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
-import com.yandex.sample.droidcon.library.LibraryApplication;
 
 public class MyActivity extends Activity {
+
+    public static final String IN_APP_SKU = "com.amazon.buttonclicker.blue_button";
+    public static final String SUBSCRIPTION_SKU = "com.amazon.buttonclicker.subscription.1mo";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,13 +39,15 @@ public class MyActivity extends Activity {
     }
 
     public void onSubscriptionClick(View v){
-        //todo
+        purchaseSku(SUBSCRIPTION_SKU);
     }
 
-    public void onAdvancedClick(View v){
+    public void onLevel4Click(View v){
+        purchaseSku(IN_APP_SKU);
+    }
+
+    private void purchaseSku(String sku) {
         final LibraryApplication application = (LibraryApplication) getApplication();
-        String sku = "com.amazon.buttonclicker.blue_button";
         application.purchase(sku);
     }
-
 }

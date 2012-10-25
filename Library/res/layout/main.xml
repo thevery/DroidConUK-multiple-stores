@@ -58,7 +58,7 @@
             android:drawableStart="@drawable/ic_lock_lock"
             android:drawableEnd="@drawable/ic_lock_lock_right"
             android:textColor="#8c8c8c"
-            android:onClick="onAdvancedClick"
+            android:onClick="onLevel4Click"
             android:text="@string/level_4"/>
 
     </LinearLayout>
@@ -70,11 +70,10 @@
         android:gravity="center"
         android:background="@color/bg_black"
         android:text="@string/days_left"
-        android:textColor="@color/white"
-        android:textSize="16dp"
         android:padding="12dp"
+        android:clickable="true"
         android:onClick="onSubscriptionClick"
-        style="@android:style/TextAppearance.Large"/>
+        style="@android:style/TextAppearance.Medium.Inverse"/>
 
 </LinearLayout>
 
