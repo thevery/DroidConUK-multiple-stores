@@ -128,16 +128,7 @@ public class ButtonClickerObserver extends BasePurchasingObserver {
      * Helper method to retrieve the correct key to use with our shared preferences
      */
     private String getKey(final String sku) {
-//        if (sku.equals(context.getResources().getString(R.string.consumable_sku))) {
-//            return ButtonClickerActivity.NUM_CLICKS;
-//        } else if (sku.equals(context.getResources().getString(R.string.entitlement_sku_blue))) {
-//            return ButtonClickerActivity.BLUE_BUTTON;
-//        } else if (sku.equals(context.getResources().getString(R.string.parent_subscription_sku)) ||
-//                sku.equals(context.getResources().getString(R.string.child_subscription_sku_monthly))) {
-//            return ButtonClickerActivity.HAS_SUBSCRIPTION;
-//        } else {
-            return "";
-//        }
+        return sku;
     }
 
     private SharedPreferences getSharedPreferencesForCurrentUser() {

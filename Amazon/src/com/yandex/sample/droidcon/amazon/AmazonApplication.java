@@ -1,5 +1,7 @@
 package com.yandex.sample.droidcon.amazon;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import com.amazon.inapp.purchasing.PurchasingManager;
 import com.yandex.sample.droidcon.library.LibraryApplication;
@@ -21,6 +23,8 @@ public class AmazonApplication extends LibraryApplication {
 
     @Override
     public boolean getEntitlementState(String sku) {
+        final SharedPreferences preferences = getSharedPreferencesForCurrentUser();
+        preferences.getBoolean(sku, false);
         return false;
     }
 
@@ -44,4 +48,15 @@ public class AmazonApplication extends LibraryApplication {
         Log.v(ButtonClickerObserver.TAG, "getCurrentUser: returns " + currentUser);
         return currentUser;
     }
+
+    /**
+     * Get the SharedPreferences file for the current user.
+     *
+     * @return SharedPreferences file for a user.
+     */
+    private SharedPreferences getSharedPreferencesForCurrentUser() {
+        final SharedPreferences settings = getSharedPreferences(currentUser, Context.MODE_PRIVATE);
+        return settings;
+    }
+
 }

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#ffffffff</color>
+    <color name="white">#FFFFFF</color>
     <color name="bg_black">#9b000000</color>
     <color name="bg_gray">#f9f9f9</color>
     <color name="delimeter_blue">#bcebfb</color>
     <color name="text_blue">#33b5e5</color>
     <color name="text_gray">#8c8c8c</color>
+
+    <color name="text_blue_button_unlocked">@color/white</color>
+    <color name="text_blue_button_locked">#8C8C8C</color>
+
 </resources>
