@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  */
 public abstract class PurchaseObserver {
     private static final String TAG = "PurchaseObserver";
-    private final Activity mActivity;
+    private final Context context;
     private final Handler mHandler;
     private Method mStartIntentSender;
     private Object[] mStartIntentSenderArgs = new Object[5];
@@ -36,8 +36,8 @@ public abstract class PurchaseObserver {
         IntentSender.class, Intent.class, int.class, int.class, int.class
     };
 
-    public PurchaseObserver(Activity activity, Handler handler) {
-        mActivity = activity;
+    public PurchaseObserver(Context context, Handler handler) {
+        this.context = context;
         mHandler = handler;
         initCompatibilityLayer();
     }
@@ -103,7 +103,7 @@ public abstract class PurchaseObserver {
 
     private void initCompatibilityLayer() {
         try {
-            mStartIntentSender = mActivity.getClass().getMethod("startIntentSender",
+            mStartIntentSender = context.getClass().getMethod("startIntentSender",
                     START_INTENT_SENDER_SIG);
         } catch (SecurityException e) {
             mStartIntentSender = null;
@@ -125,7 +125,7 @@ public abstract class PurchaseObserver {
                 mStartIntentSenderArgs[2] = Integer.valueOf(0);
                 mStartIntentSenderArgs[3] = Integer.valueOf(0);
                 mStartIntentSenderArgs[4] = Integer.valueOf(0);
-                mStartIntentSender.invoke(mActivity, mStartIntentSenderArgs);
+                mStartIntentSender.invoke(context, mStartIntentSenderArgs);
             } catch (Exception e) {
                 Log.e(TAG, "error starting activity", e);
             }
@@ -134,7 +134,7 @@ public abstract class PurchaseObserver {
             // own separate activity stack instead of on the activity stack of
             // the application.
             try {
-                pendingIntent.send(mActivity, 0 /* code */, intent);
+                pendingIntent.send(context, 0 /* code */, intent);
             } catch (CanceledException e) {
                 Log.e(TAG, "error starting activity", e);
             }

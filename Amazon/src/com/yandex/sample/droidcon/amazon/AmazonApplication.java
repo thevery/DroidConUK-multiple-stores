@@ -19,15 +19,14 @@ public class AmazonApplication extends LibraryApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        ButtonClickerObserver buttonClickerObserver = new ButtonClickerObserver(this);
-        PurchasingManager.registerObserver(buttonClickerObserver);
+        AmazonPurchaseObserver amazonPurchaseObserver = new AmazonPurchaseObserver(this);
+        PurchasingManager.registerObserver(amazonPurchaseObserver);
     }
 
     @Override
     public boolean getEntitlementState(String sku) {
         final SharedPreferences preferences = getSharedPreferencesForCurrentUser();
         final boolean state = preferences.getBoolean(sku, false);
-        System.out.println("state = " + state);
         return state;
     }
 
@@ -38,21 +37,20 @@ public class AmazonApplication extends LibraryApplication {
 
     @Override
     public void purchase(String sku) {
-        String requestId = PurchasingManager.initiatePurchaseRequest(sku);
-//                storeRequestId(requestId, BLUE_BUTTON);
+        PurchasingManager.initiatePurchaseRequest(sku);
     }
 
     public void setCurrentUser(String currentUser) {
-        Log.v(ButtonClickerObserver.TAG, "setCurrentUser: currentUser=" + currentUser);
+        Log.v(AmazonPurchaseObserver.TAG, "setCurrentUser: currentUser=" + currentUser);
         PreferenceManager.getDefaultSharedPreferences(this).edit().putString(CURRENT_USER, currentUser).commit();
         this.currentUser = currentUser;
     }
 
     public String getCurrentUser() {
-        if (currentUser==null) {
+        if (currentUser == null) {
             currentUser = PreferenceManager.getDefaultSharedPreferences(this).getString(CURRENT_USER, null);
         }
-        Log.v(ButtonClickerObserver.TAG, "getCurrentUser: returns " + currentUser);
+        Log.v(AmazonPurchaseObserver.TAG, "getCurrentUser: returns " + currentUser);
         return currentUser;
     }
 

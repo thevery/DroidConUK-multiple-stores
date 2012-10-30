@@ -35,7 +35,6 @@ public class MyActivity extends Activity {
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                System.out.println("MyActivity.onReceive");
                 updateState();
             }
         };
@@ -43,7 +42,6 @@ public class MyActivity extends Activity {
 
     @Override
     protected void onResume() {
-        System.out.println("MyActivity.onResume");
         registerReceiver(receiver, new IntentFilter(LibraryApplication.makeStateChangedBroadcast(this)));
         super.onResume();
         updateState();
@@ -51,7 +49,6 @@ public class MyActivity extends Activity {
 
     @Override
     protected void onPause() {
-        System.out.println("MyActivity.onPause");
         unregisterReceiver(receiver);
         super.onPause();
     }

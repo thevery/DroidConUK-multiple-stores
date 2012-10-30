@@ -2,6 +2,32 @@
 <resources>
     <string name="app_name">English - Play</string>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <string name="welcome">Welcome to the Sample store!</string>
     <string name="billing_not_supported_title">Can\'t make purchases</string>
     <string name="billing_not_supported_message">The Market billing

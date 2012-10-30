@@ -17,10 +17,6 @@
 package com.yandex.sample.droidcon.play;
 
 import com.yandex.sample.droidcon.library.MyActivity;
-import com.yandex.sample.droidcon.play.BillingService.RequestPurchase;
-import com.yandex.sample.droidcon.play.BillingService.RestoreTransactions;
-import com.yandex.sample.droidcon.play.Consts.PurchaseState;
-import com.yandex.sample.droidcon.play.Consts.ResponseCode;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -59,7 +55,7 @@ import java.util.Set;
  */
 public class Dungeons extends Activity implements OnClickListener,
         OnItemSelectedListener {
-    private static final String TAG = "Dungeons";
+    public static final String TAG = "Dungeons";
 
     /**
      * Used for storing the log text.
@@ -71,9 +67,9 @@ public class Dungeons extends Activity implements OnClickListener,
      * database.  If false, then we perform a RestoreTransactions request
      * to get all the purchases for this user.
      */
-    private static final String DB_INITIALIZED = "db_initialized";
+    public static final String DB_INITIALIZED = "db_initialized";
 
-    private DungeonsPurchaseObserver mDungeonsPurchaseObserver;
+    private PlayPurchaseObserver mDungeonsPurchaseObserver;
     private Handler mHandler;
 
     private BillingService mBillingService;
@@ -111,109 +107,6 @@ public class Dungeons extends Activity implements OnClickListener,
      */
     private enum Managed { MANAGED, UNMANAGED, SUBSCRIPTION }
 
-    /**
-     * A {@link PurchaseObserver} is used to get callbacks when Android Market sends
-     * messages to this application so that we can update the UI.
-     */
-    private class DungeonsPurchaseObserver extends PurchaseObserver {
-        public DungeonsPurchaseObserver(Handler handler) {
-            super(Dungeons.this, handler);
-        }
-
-        @Override
-        public void onBillingSupported(boolean supported, String type) {
-            if (Consts.DEBUG) {
-                Log.i(TAG, "supported: " + supported);
-            }
-            if (type == null || type.equals(Consts.ITEM_TYPE_INAPP)) {
-                if (supported) {
-                    restoreDatabase();
-                    mBuyButton.setEnabled(true);
-                    mEditPayloadButton.setEnabled(true);
-                } else {
-                    showDialog(DIALOG_BILLING_NOT_SUPPORTED_ID);
-                }
-            } else if (type.equals(Consts.ITEM_TYPE_SUBSCRIPTION)) {
-                mCatalogAdapter.setSubscriptionsSupported(supported);
-            } else {
-                showDialog(DIALOG_SUBSCRIPTIONS_NOT_SUPPORTED_ID);
-            }
-        }
-
-        @Override
-        public void onPurchaseStateChange(PurchaseState purchaseState, String itemId,
-                int quantity, long purchaseTime, String developerPayload) {
-            if (Consts.DEBUG) {
-                Log.i(TAG, "onPurchaseStateChange() itemId: " + itemId + " " + purchaseState);
-            }
-
-            if (developerPayload == null) {
-                logProductActivity(itemId, purchaseState.toString());
-            } else {
-                logProductActivity(itemId, purchaseState + "\n\t" + developerPayload);
-            }
-            
-            if (purchaseState == PurchaseState.PURCHASED) {
-                mOwnedItems.add(itemId);
-                
-                // If this is a subscription, then enable the "Edit
-                // Subscriptions" button.
-                for (CatalogEntry e : CATALOG) {
-                    if (e.sku.equals(itemId) &&
-                            e.managed.equals(Managed.SUBSCRIPTION)) {
-                        mEditSubscriptionsButton.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-            mCatalogAdapter.setOwnedItems(mOwnedItems);
-            mOwnedItemsCursor.requery();
-        }
-
-        @Override
-        public void onRequestPurchaseResponse(RequestPurchase request,
-                ResponseCode responseCode) {
-            if (Consts.DEBUG) {
-                Log.d(TAG, request.mProductId + ": " + responseCode);
-            }
-            if (responseCode == ResponseCode.RESULT_OK) {
-                if (Consts.DEBUG) {
-                    Log.i(TAG, "purchase was successfully sent to server");
-                }
-                logProductActivity(request.mProductId, "sending purchase request");
-            } else if (responseCode == ResponseCode.RESULT_USER_CANCELED) {
-                if (Consts.DEBUG) {
-                    Log.i(TAG, "user canceled purchase");
-                }
-                logProductActivity(request.mProductId, "dismissed purchase dialog");
-            } else {
-                if (Consts.DEBUG) {
-                    Log.i(TAG, "purchase failed");
-                }
-                logProductActivity(request.mProductId, "request purchase returned " + responseCode);
-            }
-        }
-
-        @Override
-        public void onRestoreTransactionsResponse(RestoreTransactions request,
-                ResponseCode responseCode) {
-            if (responseCode == ResponseCode.RESULT_OK) {
-                if (Consts.DEBUG) {
-                    Log.d(TAG, "completed RestoreTransactions request");
-                }
-                // Update the shared preferences so that we don't perform
-                // a RestoreTransactions again.
-                SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = prefs.edit();
-                edit.putBoolean(DB_INITIALIZED, true);
-                edit.commit();
-            } else {
-                if (Consts.DEBUG) {
-                    Log.d(TAG, "RestoreTransactions error: " + responseCode);
-                }
-            }
-        }
-    }
-
     private static class CatalogEntry {
         public String sku;
         public int nameId;
@@ -229,18 +122,9 @@ public class Dungeons extends Activity implements OnClickListener,
     /** An array of product list entries for the products that can be purchased. */
     private static final CatalogEntry[] CATALOG = new CatalogEntry[] {
         new CatalogEntry(MyActivity.IN_APP_SKU_UPPER, R.string.two_handed_sword, Managed.MANAGED),
+        new CatalogEntry(MyActivity.IN_APP_SKU_ADVANCED, R.string.two_handed_sword, Managed.MANAGED),
         new CatalogEntry("subscription_monthly", R.string.subscription_monthly,
                 Managed.SUBSCRIPTION),
-        new CatalogEntry("subscription_yearly", R.string.subscription_yearly,
-                Managed.SUBSCRIPTION),
-        new CatalogEntry("android.test.purchased", R.string.android_test_purchased,
-                Managed.UNMANAGED),
-        new CatalogEntry("android.test.canceled", R.string.android_test_canceled,
-                Managed.UNMANAGED),
-        new CatalogEntry("android.test.refunded", R.string.android_test_refunded,
-                Managed.UNMANAGED),
-        new CatalogEntry("android.test.item_unavailable", R.string.android_test_item_unavailable,
-                Managed.UNMANAGED),
     };
 
     private String mItemName;
@@ -255,7 +139,7 @@ public class Dungeons extends Activity implements OnClickListener,
         setContentView(R.layout.main);
 
         mHandler = new Handler();
-        mDungeonsPurchaseObserver = new DungeonsPurchaseObserver(mHandler);
+        mDungeonsPurchaseObserver = new PlayPurchaseObserver(this, mHandler);
         mBillingService = new BillingService();
         mBillingService.setContext(this);
 
